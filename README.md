@@ -1,2 +1,2 @@
 # i3
-My i3 config
+configfuration for arch linux i3, optimal, non-bloat, please feel free to use it
