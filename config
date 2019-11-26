@@ -120,8 +120,11 @@ bindsym Shift+$mod+u resize shrink down 50 px
 bindsym Shift+$mod+i resize shrink up 50 px
 bindsym Shift+$mod+o resize shrink right 50 px
 
+set_from_resource $fg i3wm.color7 #000000
+set_from_resource $bg i3wm.color2 #000000
+
 # Class                 border  backgr. text indicator child_border
-client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused          $fg     $fg     $fg  $bg       $fg
 client.focused_inactive $bg     $bg     $fg  $bg       $bg
 client.unfocused        $bg     $bg     $fg  $bg       $bg
 client.urgent           $bg     $bg     $fg  $bg       $bg
@@ -130,14 +133,18 @@ client.placeholder      $bg     $bg     $fg  $bg       $bg
 client.background       $bg
 
 # Start up 
-exec_always --no-startup-id compton --config ~/.config/compton/compton.conf 
+exec_always --no-startup-id compton --config ~/.config/compton/compton.conf & 
 exec_always --no-startup-id nitrogen --restore &
 exec_always --no-startup-id wal -R &
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh &
+exec_always --no-startup-id /bin/bash -c "sleep 30 && ~/Miscellaneous/Scripts/run_ccursereminders.py 10" &
+exec_always --no-startup-id ibus-daemon -d -x &
+exec --no-startup-id i3-msg "workspace $ws1; exec xterm -e calcurse" 
+exec --no-startup-id i3-msg "exec xterm -e ranger"
 
 # Pulse Audio controls
-bindsym $mod+F3 exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym $mod+F2 exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym $mod+F3 exec --no-startup-id pactl set-sink-volume 0 +1% #increase sound volume
+bindsym $mod+F2 exec --no-startup-id pactl set-sink-volume 0 -1% #decrease sound volume
 bindsym $mod+F1 exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # Sreen brightness controls
@@ -145,24 +152,24 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 # For windows
-for_window [title="ranger"] move to workspace $ws1
+for_window [title="ranger"] move to workspace $ws2
 for_window [class="firefox"] move to workspace $ws3
-for_window [class="libreoffice"] move to workspace $ws2
+for_window [class="libreoffice"] move to workspace $ws5
 for_window [class="discord"] move to workspace $ws4
-for_window [title="mpsyt"] move to workspace $ws5
-for_window [title="mpv"] move to workspace $ws5
+for_window [title="calcurse"] move to worksapce $ws1
 
 # Key Bindings
 bindsym $mod+b exec firefox 
-bindsym $mod+n exec xterm -e ranger
-bindsym $mod+m exec libreoffice
-bindsym $mod+c exec discord
-bindsym $mod+p exec xterm -e mpsyt
+bindsym $mod+Shift+f exec xterm -e ranger
+bindsym $mod+Shift+w exec libreoffice
+bindsym $mod+t exec discord
+bindsym $mod+Shift+m exec xterm -e mpsyt
+bindsym $mod+z exec ~/Miscellaneous/Scripts/screencapture
+bindsym $mod+c exec xterm -e calcurse
  
 # Gaps and borders
-gaps inner 5
-gaps outer 5
+gaps inner 10
+gaps outer 10
 smart_gaps enable
 default_border pixel 2
 hide_edge_borders smart
-
