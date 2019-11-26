@@ -1,0 +1,25 @@
+#!/bin/bash
+
+take_ss() {
+	
+	import -window root $HOME/Pictures/Screencapture/$(date|tr " :" _).png
+
+}
+
+notify_send() {
+	notify-send --expire-time=3000000 -i view-fullscreen 'Screencapture Saved!~' 'Saved to ~/Pictures/Screencapture' --icon='/home/cosmo/Pictures/Collection/gabriel.png' && sleep 0.5
+}
+
+main() {
+	case "$1" in
+		crop)
+			take_ss -s
+			notify_send
+			;;
+		*)
+			notify_send
+			take_ss
+	esac
+}
+
+main "$@"
